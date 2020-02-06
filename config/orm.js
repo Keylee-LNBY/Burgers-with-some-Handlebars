@@ -5,7 +5,7 @@ const connection = require('./connection');
 
 let orm = {
     addBurger: (tableInput) => {
-        const queryString = 'INSERT burgers (burger_name) VALUES ?'
+        const queryString = "INSERT burgers (burger_name) VALUES ?"
         connection.query(queryString, [tableInput], (error, result) => {
             if(error) 
                 throw error;
@@ -13,27 +13,33 @@ let orm = {
         });
     },
     updateBurger: (tableInput) => {
-        const queryString = 'UPDATE burgers (burger_name) VALUES ?'
+        const queryString = "UPDATE burgers (burger_name) VALUES ?"
         connection.query(queryString, [tableInput], (error, result) => {
             if(error) 
                 throw error;
             console.log(result);
         });
     },
-    eatBurger: (tableInput) => {
-    //this is called when as a result of an on click from the user
-        const queryString = 'UPDATE burgers (devoured) VALUES true WHERE id = ?'
-        connection.query(queryString, [tableInput], (error, result) => {
-            if (error)
+    selectAll: (tableInput) => {
+        connection.query("SELECT * FROM burgers", (error, result) => {
+            if(error) 
                 throw error;
             console.log(result);
-        });
-    },
-    selectAll: (tableInput) => {
-        
+        }); 
     }
 };
 
 
 //Export for use in other javaScripts
 module.exports = orm; 
+
+
+//this is called when as a result of an on click from the user
+// eatBurger: (tableInput) => {
+//     const queryString = 'UPDATE burgers (devoured) VALUES true WHERE id = ?'
+//     connection.query(queryString, [tableInput], (error, result) => {
+//         if (error)
+//             throw error;
+//         console.log(result);
+//     });
+// };
