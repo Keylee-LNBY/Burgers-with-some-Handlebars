@@ -5,7 +5,7 @@ const router = express.Router();
 // Connect burgers model
 const burger = require("../models/burgers");
 
-//Router
+//Router//
 
 //Home page (GET) - select all info from the burgers table & display on the home page
 router.get("/", (req, res) => {
@@ -45,9 +45,6 @@ router.put("/api/burgers/:id", (req, res) => {
         }
     });
 });
-
-
-
 
 //Export Router
 module.exports = router;

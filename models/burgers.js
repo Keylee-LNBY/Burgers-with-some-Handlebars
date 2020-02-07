@@ -8,8 +8,8 @@ let burger = {
            cb(response);
        });
    },
-   updateBurger: function(vals, objColVals, cb) {
-       orm.updateBurger(vals, objColVals, (response) => {
+   updateBurger: function(objColVals, cb) {
+       orm.updateBurger(objColVals, (response) => {
            cb(response);
        });
    },
