@@ -20,13 +20,12 @@ router.get("/", (req, res) => {
 
 //Add a burger (POST) - add a burger to the burgers database
 router.post("/api/burgers", (req, res) => {
-    burger.addBurger([
-        "burgerName"
-    ], [
-        req.body.burgerName
-    ], function(result) {
+    burger.addBurger(
+        req.body.burgerName,
+        function(result) {
         //returns the ID of the new burger that was added
-        res.json({ id: result.insertId });
+        // res.json({ id: result.insertId });
+        res.redirect("/");
     });
 });
 

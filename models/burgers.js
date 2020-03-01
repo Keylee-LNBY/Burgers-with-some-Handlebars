@@ -3,18 +3,18 @@ const orm = require('../config/orm');
 
 //Calls the ORM functions using burger specific input
 let burger = {
-   addBurger: function(vals, cb) {
-       orm.addBurger(vals, (response) => {
-           cb(response);
-       });
+   addBurger: function(name, cb) {
+       orm.addBurger("burgers", ["burger_name", "devoured"], [name, false], cb);
    },
-   updateBurger: function(objColVals, cb) {
-       orm.updateBurger(objColVals, (response) => {
+   updateBurger: function(id, cb) {
+       let condition = "id = " + id;
+
+       orm.updateBurger("burgers", {devoured: true}, condition, (response) => {
            cb(response);
        });
    },
    selectAll: function(cb) {
-        orm.addBurger((response) => {
+        orm.addBurger("burgers", (response) => {
             cb(response);
         }); 
    }
