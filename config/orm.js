@@ -1,30 +1,75 @@
 const connection = require('./connection');
 
-// ?? indicate a table name or a table column name
-// ? indicates an input from the user
+// Helper function for SQL syntax.
+// The above helper function loops through and creates an array of question marks - ["?", "?", "?"] - and turns it into a string.
+// ["?", "?", "?"].toString() => "?,?,?";
+function printQuestionMarks(num) {
+    var arr = [];
+  
+    for (var i = 0; i < num; i++) {
+      arr.push("?");
+    }
+  
+    return arr.toString();
+  }
+  
+  // Helper function to convert object key/value pairs to SQL syntax
+  function objToSql(ob) {
+    var arr = [];
+  
+    // loop through the keys and push the key/value as a string int arr
+    for (var key in ob) {
+        arr.push(key + "=" + value);
+      }
+    
+    // translate array of strings to a single comma-separated string
+    return arr.toString();
+  }
 
 let orm = {
-    addBurger: (tableInput) => {
-        const queryString = "INSERT burgers (burger_name) VALUES ?"
-        connection.query(queryString, [tableInput], (error, result) => {
-            if(error) 
-                throw error;
-            console.log(result);
+    addBurger: function(table, cols, vals, cb) {
+        var queryString = "INSERT INTO " + table;
+    
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
+    
+        console.log(queryString);
+    
+        connection.query(queryString, vals, function(err, result) {
+          if (err) {
+            throw err;
+          }
+    
+          cb(result);
         });
-    },
-    updateBurger: (tableInput) => {
-        const queryString = "UPDATE burgers (burger_name) VALUES ?"
-        connection.query(queryString, [tableInput], (error, result) => {
-            if(error) 
-                throw error;
-            console.log(result);
+      },
+    updateBurger: function(table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
+    
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+    
+        console.log(queryString);
+        connection.query(queryString, function(err, result) {
+          if (err) {
+            throw err;
+          }
+    
+          cb(result);
         });
-    },
-    selectAll: (tableInput) => {
-        connection.query("SELECT * FROM burgers", (error, result) => {
-            if(error) 
+      },
+    selectAll: (tableInput, cb) => {
+        connection.query("SELECT * FROM " + tableInput + ";", (error, result) => {
+            if(error) {
                 throw error;
-            console.log(result);
+            }
+            cb(result);
         }); 
     }
 };
@@ -32,14 +77,3 @@ let orm = {
 
 //Export for use in other javaScripts
 module.exports = orm; 
-
-
-//this is called when as a result of an on click from the user
-// eatBurger: (tableInput) => {
-//     const queryString = 'UPDATE burgers (devoured) VALUES true WHERE id = ?'
-//     connection.query(queryString, [tableInput], (error, result) => {
-//         if (error)
-//             throw error;
-//         console.log(result);
-//     });
-// };
