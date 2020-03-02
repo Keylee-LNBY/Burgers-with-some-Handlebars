@@ -1,5 +1,5 @@
 //Connect the orm export
-const orm = require('../config/orm');
+const orm = require('../config/orm.js');
 
 //Calls the ORM functions using burger specific input
 let burger = {
