@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // Connect burgers model
-const burger = require("../models/burgers");
+const burger = require("../models/burgers.js");
 
 //Router//
 
